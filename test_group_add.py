@@ -11,7 +11,7 @@ class TestGroupAdd:
     def setup_method(self):
         self.driver = webdriver.Firefox()
         self.vars = {}
-        self.start_page_url = "http://localhost/addressbook/group.php"
+        self.start_page_url = "http://localhost/addressbook/index.php"
         self.user_name = "admin"
         self.user_pass = "secret"
         self.group_name = "TestGroupSel"
@@ -29,15 +29,14 @@ class TestGroupAdd:
         wd.find_element(By.NAME, "user").send_keys(user_name)
         # 5 | type | name=pass | secret
         wd.find_element(By.NAME, "pass").send_keys(user_pass)
-        wd.find_element(By.CSS_SELECTOR, "[type=submit]").click()
-        # 7 | click | name=new |
-        wd.find_element(By.NAME, "new").click()
+        wd.find_element(By.CSS_SELECTOR, "input[type=submit]").click()
 
     def open_groups_page(self, wd):
-        wd.find_element(By.NAME, "group_name").click()
+        wd.find_element(By.LINK_TEXT, "groups").click()
 
     def create_group(self, wd, group):
         # 9 | type | name=group_name | TestGroupSel
+        wd.find_element(By.NAME, "new").click()
         wd.find_element(By.NAME, "group_name").send_keys(group.name)
         # 10 | type | name=group_header | TestGroupHeader
         wd.find_element(By.NAME, "group_header").send_keys(group.header)
@@ -60,7 +59,7 @@ class TestGroupAdd:
         self.login(wd, user_name=self.user_name, user_pass=self.user_pass)
         self.open_groups_page(wd)
         self.create_group(wd, Group(name=self.group_name, header=self.group_header,
-                          footer=self.group_footer))
+                                    footer=self.group_footer))
         self.return_to_groups_page(wd)
         # TODO: Check for group_name
         # do something
