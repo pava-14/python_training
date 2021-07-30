@@ -1,71 +1,29 @@
 # ~*~ coding: utf-8 ~*~
 
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-
+import pytest
+from application import Application
 from group import Group
 
 
-class TestGroupAdd:
+@pytest.fixture
+def app(request):
+    fixture = Application()
+    request.addfinalizer(fixture.destroy)
+    return fixture
 
-    def setup_method(self):
-        self.driver = webdriver.Firefox()
-        self.vars = {}
-        self.start_page_url = "http://localhost/addressbook/index.php"
-        self.user_name = "admin"
-        self.user_pass = "secret"
-        self.group_name = "TestGroupSel"
-        self.group_header = "TestGroupHeader"
-        self.group_footer = "TestGroupFooter"
 
-    def teardown_method(self):
-        self.driver.quit()
+def test_group_add(app):
+    app.login(user_name=app.user_name, user_pass=app.user_pass)
+    app.create_group(Group(name=app.group_name, header=app.group_header,
+                           footer=app.group_footer))
+    # TODO: Check for group_name
+    # do something
+    app.logout()
 
-    def open_home_page(self):
-        wd = self.driver
-        wd.get(self.start_page_url)
 
-    def login(self, user_name, user_pass):
-        wd = self.driver
-        self.open_home_page()
-        wd.find_element(By.NAME, "user").send_keys(user_name)
-        wd.find_element(By.NAME, "pass").send_keys(user_pass)
-        wd.find_element(By.CSS_SELECTOR, "input[type=submit]").click()
-
-    def open_groups_page(self):
-        wd = self.driver
-        wd.find_element(By.LINK_TEXT, "groups").click()
-
-    def create_group(self, group):
-        wd = self.driver
-        self.open_groups_page()
-        wd.find_element(By.NAME, "new").click()
-        wd.find_element(By.NAME, "group_name").send_keys(group.name)
-        wd.find_element(By.NAME, "group_header").send_keys(group.header)
-        wd.find_element(By.NAME, "group_footer").send_keys(group.footer)
-        wd.find_element(By.NAME, "submit").click()
-        self.return_to_groups_page()
-
-    def return_to_groups_page(self):
-        wd = self.driver
-        wd.find_element(By.LINK_TEXT, "groups").click()
-
-    def logout(self):
-        wd = self.driver
-        wd.find_element(By.LINK_TEXT, "Logout").click()
-
-    def test_group_add(self):
-        wd = self.driver
-        self.login(user_name=self.user_name, user_pass=self.user_pass)
-        self.create_group(Group(name=self.group_name, header=self.group_header,
-                                footer=self.group_footer))
-        # TODO: Check for group_name
-        # do something
-        self.logout()
-
-    def test_empty_group_add(self):
-        self.login(user_name=self.user_name, user_pass=self.user_pass)
-        self.create_group(Group(name="", header="", footer=""))
-        # TODO: Check for group_name
-        # do something
-        self.logout()
+def test_empty_group_add(app):
+    app.login(user_name=app.user_name, user_pass=app.user_pass)
+    app.create_group(Group(name="", header="", footer=""))
+    # TODO: Check for group_name
+    # do something
+    app.logout()
