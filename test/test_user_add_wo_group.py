@@ -1,15 +1,4 @@
-import pytest
-
-from fixture.application import Application
 from model.user import User
-from fixture.user import UserHelper
-
-
-@pytest.fixture
-def app(request):
-    fixture = Application()
-    request.addfinalizer(fixture.destroy)
-    return fixture
 
 
 def test_add_user_wo_group(app):
