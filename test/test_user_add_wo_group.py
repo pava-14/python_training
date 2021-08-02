@@ -1,18 +1,18 @@
 import pytest
 
+from fixture.application import Application
 from model.user import User
-from fixture.userbase import UserPageBase
+from fixture.user import UserHelper
 
 
 @pytest.fixture
-def user_page(request):
-    fixture = UserPageBase()
+def app(request):
+    fixture = Application()
     request.addfinalizer(fixture.destroy)
     return fixture
 
 
-def test_add_user(user_page):
-    user_page.login(user_name=user_page.user_name, user_pass=user_page.user_pass)
-    user_page.add_new_user_wo_group(
-        User(first_name=user_page.first_name, middle_name=user_page.middle_name, last_name=user_page.last_name))
-    user_page.logout()
+def test_add_user_wo_group(app):
+    app.session.login(user_name=app.user_name, user_pass=app.user_pass)
+    app.user.add_new_wo_group(User(first_name=app.first_name, middle_name=app.middle_name, last_name=app.last_name))
+    app.session.logout()
