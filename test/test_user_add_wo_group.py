@@ -1,7 +1,7 @@
 import pytest
 
-from user import User
-from userbase import UserPageBase
+from model.user import User
+from fixture.userbase import UserPageBase
 
 
 @pytest.fixture
