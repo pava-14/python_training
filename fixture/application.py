@@ -4,7 +4,7 @@ from selenium.webdriver.common.by import By
 from fixture.group import GroupHelper
 from fixture.session import SessionHelper
 from fixture.user import UserHelper
-from model.group import get_random_string
+from util.util import get_random_string
 
 
 class Application:
