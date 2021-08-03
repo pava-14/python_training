@@ -4,11 +4,13 @@ from selenium.webdriver.common.by import By
 from fixture.group import GroupHelper
 from fixture.session import SessionHelper
 from fixture.user import UserHelper
+from model.group import get_random_string
 
 
 class Application:
     def __init__(self):
-        self.wd = webdriver.Firefox()
+        # self.wd = webdriver.Firefox()
+        self.wd = webdriver.Chrome()
         self.wd.implicitly_wait(20)
         self.session = SessionHelper(self)
         self.group = GroupHelper(self)
@@ -17,12 +19,14 @@ class Application:
         self.start_page_url = "http://localhost/addressbook/index.php"
         self.user_name = "admin"
         self.user_pass = "secret"
-        self.group_name = "TestGroupSel"
-        self.group_header = "TestGroupHeader"
-        self.group_footer = "TestGroupFooter"
-        self.first_name = "Bob"
-        self.middle_name = "N"
-        self.last_name = "Marley"
+        #
+        postfix = get_random_string()
+        self.group_name = "Group_" + postfix
+        self.group_header = "Header_" + postfix
+        self.group_footer = "Footer_" + postfix
+        self.first_name = "Bob_" + postfix
+        self.middle_name = "N_" + postfix
+        self.last_name = "Marley_" + postfix
 
     def open_home_page(self):
         wd = self.wd
