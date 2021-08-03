@@ -9,5 +9,5 @@ def test_group_delete_first_group(app):
 
 def test_group_delete_by_name(app):
     app.session.login(user_name=app.user_name, user_pass=app.user_pass)
-    app.group.delete_by_name("Group_88X3TI")
+    app.group.delete_by_name("Group_8E9JTK_edited")
     app.session.logout()
