@@ -9,7 +9,8 @@ class GroupHelper:
 
     def open_groups_page(self):
         wd = self.app.wd
-        wd.find_element(By.LINK_TEXT, "groups").click()
+        if not (wd.current_url.endswith("/group.php") and len(wd.find_elements_by_name("new")) > 0):
+            wd.find_element(By.LINK_TEXT, "groups").click()
 
     def return_to_groups_page(self):
         wd = self.app.wd
@@ -56,7 +57,7 @@ class GroupHelper:
         wd.find_element_by_name("delete").click()
         self.return_to_groups_page()
 
-    def edit_by_name(self, group_name):
+    def modify_by_name(self, group_name):
         wd = self.app.wd
         self.open_groups_page()
         selector_text = "input[title='Select ({0})']".format(group_name)
@@ -77,3 +78,8 @@ class GroupHelper:
         # submit modification
         wd.find_element_by_name("update").click()
         self.return_to_groups_page()
+
+    def count(self):
+        wd = self.app.wd
+        self.open_groups_page()
+        return len(wd.find_elements_by_name("selected[]"))

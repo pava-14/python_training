@@ -11,7 +11,7 @@ class Application:
     def __init__(self):
         # self.wd = webdriver.Firefox()
         self.wd = webdriver.Chrome()
-        self.wd.implicitly_wait(20)
+        # self.wd.implicitly_wait(5)
         self.session = SessionHelper(self)
         self.group = GroupHelper(self)
         self.user = UserHelper(self)
@@ -37,7 +37,8 @@ class Application:
 
     def open_home_page(self):
         wd = self.wd
-        wd.get(self.start_page_url)
+        if not (wd.current_url.endswith("/index.php") and len(wd.find_elements_by_id("search_count")) > 0):
+            wd.get(self.start_page_url)
 
     def return_to_home_page(self):
         wd = self.wd

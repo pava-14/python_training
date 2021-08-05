@@ -17,3 +17,14 @@ class UserHelper:
         wd.find_element_by_css_selector(selector_text).click()
         wd.find_element_by_css_selector("input[value=Delete]").click()
         wd.switch_to_alert().accept()
+
+    def delete_first(self):
+        wd = self.app.wd
+        wd.find_element_by_name("selected[]").click()
+        wd.find_element_by_css_selector("input[value=Delete]").click()
+        wd.switch_to_alert().accept()
+
+    def count(self):
+        wd = self.app.wd
+        self.app.open_home_page()
+        return len(wd.find_elements_by_name("selected[]"))
