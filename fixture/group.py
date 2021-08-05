@@ -1,3 +1,5 @@
+__author__ = 'apavlenko'
+
 from selenium.webdriver.common.by import By
 
 

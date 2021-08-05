@@ -1,4 +1,4 @@
-
+__author__ = 'apavlenko'
 
 
 def test_group_delete_first_group(app):

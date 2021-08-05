@@ -1,3 +1,5 @@
+__author__ = 'apavlenko'
+
 from model.user import User
 
 

@@ -28,6 +28,13 @@ class Application:
         self.middle_name = "N_" + postfix
         self.last_name = "Marley_" + postfix
 
+    def is_valid(self):
+        try:
+            self.wd.current_url
+            return True
+        except:
+            return False
+
     def open_home_page(self):
         wd = self.wd
         wd.get(self.start_page_url)
