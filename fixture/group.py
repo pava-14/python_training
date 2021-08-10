@@ -1,7 +1,5 @@
 __author__ = 'apavlenko'
 
-from selenium.webdriver.common.by import By
-
 from model.group import Group
 
 
@@ -12,11 +10,12 @@ class GroupHelper:
     def open_groups_page(self):
         wd = self.app.wd
         if not (wd.current_url.endswith("/group.php") and len(wd.find_elements_by_name("new")) > 0):
-            wd.find_element(By.LINK_TEXT, "groups").click()
+            wd.find_element_by_link_text("groups").click()
 
     def return_to_groups_page(self):
         wd = self.app.wd
-        wd.find_element(By.LINK_TEXT, "group page").click()
+        # wd.find_element(By.LINK_TEXT, "group page").click()
+        wd.find_element_by_link_text("group page").click()
 
     def fill_group_form(self, group):
         self.change_field_value("group_name", group.name)
@@ -39,17 +38,19 @@ class GroupHelper:
         # submit group creation
         wd.find_element_by_name("submit").click()
         self.return_to_groups_page()
+        self.group_cache = None
 
     def delete_first(self):
         wd = self.app.wd
         self.open_groups_page()
         self.select_first_group()
-        wd.find_element(By.NAME, "delete").click()
+        wd.find_element_by_name("delete").click()
         self.return_to_groups_page()
+        self.group_cache = None
 
     def select_first_group(self):
         wd = self.app.wd
-        wd.find_element(By.NAME, "selected[]").click()
+        wd.find_element_by_name("selected[]").click()
 
     def delete_by_name(self, group_name):
         wd = self.app.wd
@@ -58,6 +59,7 @@ class GroupHelper:
         wd.find_element_by_css_selector(selector_text).click()
         wd.find_element_by_name("delete").click()
         self.return_to_groups_page()
+        self.group_cache = None
 
     def modify_by_name(self, group_name):
         wd = self.app.wd
@@ -69,6 +71,7 @@ class GroupHelper:
         wd.find_element_by_name("group_name").send_keys("{0}_edited".format(group_name))
         wd.find_element_by_name("update").click()
         self.return_to_groups_page()
+        self.group_cache = None
 
     def modify_first_group(self, new_group_data):
         wd = self.app.wd
@@ -80,19 +83,22 @@ class GroupHelper:
         # submit modification
         wd.find_element_by_name("update").click()
         self.return_to_groups_page()
+        self.group_cache = None
 
     def count(self):
         wd = self.app.wd
         self.open_groups_page()
         return len(wd.find_elements_by_name("selected[]"))
 
-    def get_group_list(self):
-        wd = self.app.wd
-        self.open_groups_page()
-        groups = []
-        for element in wd.find_elements_by_css_selector("span.group"):
-            text = element.text
-            id = element.find_element_by_name("selected[]").get_attribute("value")
-            groups.append(Group(name=text, id=id))
-        return groups
+    group_cache = None
 
+    def get_group_list(self):
+        if self.group_cache is None:
+            wd = self.app.wd
+            self.open_groups_page()
+            self.group_cache = []
+            for element in wd.find_elements_by_css_selector("span.group"):
+                text = element.text
+                id = element.find_element_by_name("selected[]").get_attribute("value")
+                self.group_cache.append(Group(name=text, id=id))
+        return list(self.group_cache)
