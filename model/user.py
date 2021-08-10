@@ -15,10 +15,9 @@ class User:
 
     def __eq__(self, other):
         return (self.id is None or other.id is None or self.id == other.id) \
-               and self.first_name == other.first_name \
-               and (self.middle_name == other.middle_name or \
-                    self.middle_name is None or other.middle_name is None) \
-               and self.last_name == other.last_name
+               and self.first_name == other.first_name and self.last_name == other.last_name
+        # and (self.middle_name == other.middle_name or \
+        #      self.middle_name is None or other.middle_name is None) \
 
     def id_or_max(self):
         if self.id:
