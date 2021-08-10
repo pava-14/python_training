@@ -32,6 +32,10 @@ class UserHelper:
         wd = self.app.wd
         wd.find_elements_by_css_selector("[name=entry] [title=Edit]")[index].click()
 
+    def view_user_by_index(self, index):
+        wd = self.app.wd
+        wd.find_elements_by_css_selector("[name=entry] [title=Details]")[index].click()
+
     def delete_first(self):
         self.delete_by_index(0)
         self.user_cache = None
