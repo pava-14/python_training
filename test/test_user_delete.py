@@ -10,7 +10,7 @@ def test_delete_some_user(app):
         app.user.add_new_wo_group(User(first_name=app.first_name, middle_name=app.middle_name, last_name=app.last_name))
     old_users = app.user.get_user_list()
     index = randrange(len(old_users))
-    app.user.delete_by_index(index)
+    app.user.delete_user_by_index(index)
     new_users = app.user.get_user_list()
     assert len(old_users) - 1 == len(new_users)
     old_users[index:index + 1] = []
