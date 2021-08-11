@@ -87,14 +87,13 @@ class UserHelper:
                 id = cells[0].find_element_by_name("selected[]").get_attribute("value")
                 last_name = cells[1].text
                 first_name = cells[2].text
-                all_phones = cells[5].text.splitlines()
-                while len(all_phones) < 3:
-                    all_phones.append("None")
+                # all_phones = cells[5].text.splitlines()
+                all_phones = cells[5].text
+                # while len(all_phones) < 3:
+                #     all_phones.append("None")
                 self.user_cache.append(
                     User(first_name=first_name, middle_name=None, last_name=last_name, id=id,
-                         home_phone=all_phones[0], mobile_phone=all_phones[1],
-                         # work_phone=all_phones[2], secondary_phone=all_phones[3]))
-                         work_phone=all_phones[2]))
+                         all_phones_from_home_page=all_phones))
         return list(self.user_cache)
 
     def get_user_info_from_edit_page(self, index):
