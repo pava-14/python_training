@@ -1,4 +1,5 @@
 import re
+
 from model.user import User
 
 
@@ -76,7 +77,7 @@ class UserHelper:
         wd.switch_to_alert().accept()
         self.user_cache = None
 
-    def get_user_list(self):
+    def get_user_list_from_home_page(self):
         if self.user_cache is None:
             wd = self.app.wd
             self.app.open_home_page()
@@ -89,32 +90,49 @@ class UserHelper:
                 first_name = cells[2].text
                 address = cells[3].text
                 all_emails = cells[4].text
-                # all_phones = cells[5].text.splitlines()
                 all_phones = cells[5].text
-                # while len(all_phones) < 3:
-                #     all_phones.append("None")
                 self.user_cache.append(
-                    User(first_name=first_name, middle_name=None, last_name=last_name, id=id,
-                         all_phones=all_phones))
+                    User(id=id, first_name=first_name, last_name=last_name,
+                         address=address, all_emails=all_emails, all_phones=all_phones))
         return list(self.user_cache)
 
     def get_user_info_from_edit_page(self, index):
         wd = self.app.wd
         self.edit_user_by_index(index)
-        first_name = wd.find_element_by_name("firstname").get_attribute("value")
-        last_name = wd.find_element_by_name("lastname").get_attribute("value")
         id = wd.find_element_by_name("id").get_attribute("value")
+        # name
+        first_name = wd.find_element_by_name("firstname").get_attribute("value")
+        middle_name = wd.find_element_by_name("middlename").get_attribute("value")
+        last_name = wd.find_element_by_name("lastname").get_attribute("value")
+        # address
+        address = wd.find_element_by_name("address").get_attribute("value")
+        # phones
         home_phone = wd.find_element_by_name("home").get_attribute("value")
         work_phone = wd.find_element_by_name("work").get_attribute("value")
         mobile_phone = wd.find_element_by_name("mobile").get_attribute("value")
         secondary_phone = wd.find_element_by_name("fax").get_attribute("value")
-        return User(first_name=first_name, last_name=last_name, id=id, home_phone=home_phone, work_phone=work_phone,
-                    mobile_phone=mobile_phone, secondary_phone=secondary_phone)
+        # emails
+        f_email = wd.find_element_by_name("email").get_attribute("value")
+        s_email = wd.find_element_by_name("email2").get_attribute("value")
+        t_email = wd.find_element_by_name("email3").get_attribute("value")
+
+        return User(id=id, first_name=first_name, middle_name=middle_name, last_name=last_name, address=address,
+                    home_phone=home_phone, work_phone=work_phone, mobile_phone=mobile_phone,
+                    secondary_phone=secondary_phone,
+                    f_email=f_email, s_email=s_email, t_email=t_email)
 
     def get_user_info_from_view_page(self, index):
         wd = self.app.wd
         self.view_user_by_index(index)
-        text = wd.find_element_by_id("content").text
-        string_list = text.splitlines()[2:]
-        all_phones = "\n".join(map(lambda x: re.search("\w:\s(.*)", x).group(1), string_list))
-        return User(all_phones=all_phones)
+        id = wd.find_element_by_name("id").get_attribute("value")
+        content = wd.find_element_by_id("content").text
+        list_content = content.splitlines()
+        full_name_list = list_content[0].split()
+        first_name = full_name_list[0]
+        last_name = full_name_list[2]
+        address = list_content[1]
+        all_emails = "\n".join(list_content[7:])
+        phones_list = list_content[3:6]
+        all_phones = "\n".join(map(lambda x: re.search("\w:\s(.*)", x).group(1), phones_list))
+        return User(id=id, first_name=first_name, last_name=last_name, full_name=list_content[0], address=address,
+                    all_phones=all_phones, all_emails=all_emails)

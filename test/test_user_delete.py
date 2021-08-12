@@ -8,10 +8,10 @@ from model.user import User
 def test_delete_some_user(app):
     if app.user.count() == 0:
         app.user.add_new_wo_group(User(first_name=app.first_name, middle_name=app.middle_name, last_name=app.last_name))
-    old_users = app.user.get_user_list()
+    old_users = app.user.get_user_list_from_home_page()
     index = randrange(len(old_users))
     app.user.delete_user_by_index(index)
-    new_users = app.user.get_user_list()
+    new_users = app.user.get_user_list_from_home_page()
     assert len(old_users) - 1 == len(new_users)
     old_users[index:index + 1] = []
     assert old_users == new_users
