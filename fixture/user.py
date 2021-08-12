@@ -133,6 +133,6 @@ class UserHelper:
         address = list_content[1]
         all_emails = "\n".join(list_content[7:])
         phones_list = list_content[3:6]
-        all_phones = "\n".join(map(lambda x: re.search("\w:\s(.*)", x).group(1), phones_list))
+        all_phones = "\n".join(map(lambda x: re.search('\w:\s(.*)', x).group(1), phones_list))
         return User(id=id, first_name=first_name, last_name=last_name, full_name=list_content[0], address=address,
                     all_phones=all_phones, all_emails=all_emails)
