@@ -3,11 +3,11 @@ class SessionHelper:
     def __init__(self, app):
         self.app = app
 
-    def login(self, user_name, user_pass):
+    def login(self, username, password):
         wd = self.app.wd
         self.app.open_home_page()
-        wd.find_element_by_name("user").send_keys(user_name)
-        wd.find_element_by_name("pass").send_keys(user_pass)
+        wd.find_element_by_name("user").send_keys(username)
+        wd.find_element_by_name("pass").send_keys(password)
         wd.find_element_by_css_selector("input[type=submit]").click()
 
     def logout(self):
@@ -18,9 +18,9 @@ class SessionHelper:
         wd = self.app.wd
         return len(wd.find_elements_by_link_text("Logout")) > 0
 
-    def is_logged_in_as(self, username):
+    def is_logged_in_as(self, user_name):
         wd = self.app.wd
-        return self.get_logged_user() == username
+        return self.get_logged_user() == user_name
 
     def get_logged_user(self):
         wd = self.app.wd
@@ -36,3 +36,4 @@ class SessionHelper:
                 return
             else:
                 self.logout()
+        self.login(username=username, password=password)

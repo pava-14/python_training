@@ -3,11 +3,10 @@ from selenium import webdriver
 from fixture.group import GroupHelper
 from fixture.session import SessionHelper
 from fixture.user import UserHelper
-from util.util import get_random_string
 
 
 class Application:
-    def __init__(self, browser, base_url):
+    def __init__(self, browser, base_url, username, password):
         if browser == "chrome":
             self.wd = webdriver.Chrome()
         elif browser == "firefox":
@@ -21,18 +20,8 @@ class Application:
         self.group = GroupHelper(self)
         self.user = UserHelper(self)
         self.base_url = base_url
-
-        # self.start_page_url = "http://localhost/addressbook/index.php"
-        self.user_name = "admin"
-        self.user_pass = "secret"
-        #
-        # postfix = get_random_string()
-        # self.group_name = "Group_" + postfix
-        # self.group_header = "Header_" + postfix
-        # self.group_footer = "Footer_" + postfix
-        # self.first_name = "Bob_" + postfix
-        # self.middle_name = "N_" + postfix
-        # self.last_name = "Marley_" + postfix
+        self.user_name = username
+        self.user_pass = password
 
     def is_valid(self):
         try:

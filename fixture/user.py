@@ -25,6 +25,14 @@ class UserHelper:
         self.change_field_value("firstname", user.first_name)
         self.change_field_value("middlename", user.middle_name)
         self.change_field_value("lastname", user.last_name)
+        self.change_field_value("address", user.address)
+        self.change_field_value("address", user.address)
+        self.change_field_value("home", user.home_phone)
+        self.change_field_value("mobile", user.mobile_phone)
+        self.change_field_value("work", user.work_phone)
+        self.change_field_value("email", user.f_email)
+        self.change_field_value("email2", user.s_email)
+        self.change_field_value("email3", user.t_email)
 
     def select_user_by_index(self, index):
         wd = self.app.wd
