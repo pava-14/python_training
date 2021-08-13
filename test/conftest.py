@@ -28,8 +28,9 @@ def stop(request):
     global fixture
 
     def fin():
-        fixture.session.logout()
-        fixture.destroy()
+        if not fixture is None:
+            fixture.session.logout()
+            fixture.destroy()
 
     request.addfinalizer(fin)
 
