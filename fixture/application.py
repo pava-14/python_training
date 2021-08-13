@@ -6,7 +6,8 @@ from fixture.user import UserHelper
 
 
 class Application:
-    def __init__(self, browser, base_url, username, password):
+    # def __init__(self, browser, base_url, username, password):
+    def __init__(self, browser, base_url):
         if browser == "chrome":
             self.wd = webdriver.Chrome()
         elif browser == "firefox":
@@ -20,8 +21,8 @@ class Application:
         self.group = GroupHelper(self)
         self.user = UserHelper(self)
         self.base_url = base_url
-        self.user_name = username
-        self.user_pass = password
+        # self.user_name = username
+        # self.user_pass = password
 
     def is_valid(self):
         try:

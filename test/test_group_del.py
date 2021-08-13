@@ -27,5 +27,5 @@ def test_delete_first_group(app):
     assert old_groups == new_groups
 
 
-def test_group_delete_by_name(app):
-    app.group.delete_by_name("Group_8E9JTK_edited")
+# def test_group_delete_by_name(app):
+#     app.group.delete_by_name("Group_8E9JTK_edited")
