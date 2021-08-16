@@ -1,6 +1,7 @@
 __author__ = 'apavlenko'
 
-import json
+# import json
+import jsonpickle
 import getopt
 import sys
 
@@ -15,19 +16,22 @@ except getopt.GetoptError as err:
     sys.exit(2)
 
 n = 5
-jsonfile = "data/groups.json"
+out = "data/groups.json"
 
 for o, a in opts:
     if o == "-n":
         n = int(a)
     elif o == "-f":
-        jsonfile = a
+        out = a
 
 testdata = [
     Group(name=random_string("name_", 10), header=random_string("header_", 20), footer=random_string("footer_", 20))
     for i in range(n)
 ]
 
-file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", jsonfile)
+file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", out)
+# with open(file, "w") as f:
+#     f.write(json.dumps(testdata, default=lambda x: x.__dict__, indent=2))
 with open(file, "w") as f:
-    f.write(json.dumps(testdata, default=lambda x: x.__dict__, indent=2))
+    jsonpickle.set_encoder_options("json", indent=2)
+    f.write(jsonpickle.encode(testdata))
