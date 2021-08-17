@@ -26,10 +26,10 @@ for o, a in opts:
         out = a
 
 # testdata = [User(first_name="", middle_name="", last_name="")] + \
-testdata = [User(first_name=random_firstname(), middle_name=random_short_middlename(), last_name=random_lastname(),
-         address=random_stret_address(),
-         f_email=random_email(), s_email=random_email(), t_email=random_email(),
-         home_phone=random_phonenumber(), mobile_phone=random_phonenumber(), work_phone=random_phonenumber())
+testdata = [User(firstname=random_firstname(), middlename=random_short_middlename(), lastname=random_lastname(),
+                 address=random_stret_address(),
+                 f_email=random_email(), s_email=random_email(), t_email=random_email(),
+                 home_phone=random_phonenumber(), mobile_phone=random_phonenumber(), work_phone=random_phonenumber())
     for i in range(nu)
 ]
 

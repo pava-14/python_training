@@ -5,15 +5,15 @@ from sys import maxsize
 class User:
 
     def __init__(self, id=None,
-                 first_name=None, middle_name=None, last_name=None, full_name = None, address=None,
+                 firstname=None, middlename=None, lastname=None, fullname = None, address=None,
                  home_phone=None, mobile_phone=None, work_phone=None, secondary_phone=None, all_phones=None,
                  f_email=None, s_email=None, t_email=None, all_emails=None):
         self.id = id
         # name
-        self.first_name = first_name
-        self.middle_name = middle_name
-        self.last_name = last_name
-        self.full_name = full_name
+        self.firstname = firstname
+        self.middlename = middlename
+        self.lastname = lastname
+        self.fullname = fullname
         # address
         self.address = address
         # phone
@@ -29,11 +29,11 @@ class User:
         self.all_emails = all_emails
 
     def __repr__(self):
-        return "%s:%s:%s:%s" % (self.id, self.first_name, self.middle_name, self.last_name,)
+        return "%s:%s:%s:%s" % (self.id, self.firstname, self.middlename, self.lastname,)
 
     def __eq__(self, other):
         return (self.id is None or other.id is None or self.id == other.id) \
-               and self.first_name == other.first_name and self.last_name == other.last_name
+               and self.firstname == other.firstname and self.lastname == other.lastname
         # and (self.middle_name == other.middle_name or \
         #      self.middle_name is None or other.middle_name is None) \
 

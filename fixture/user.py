@@ -22,9 +22,9 @@ class UserHelper:
             wd.find_element_by_name(field_name).send_keys(text)
 
     def fill_user_form(self, user):
-        self.change_field_value("firstname", user.first_name)
-        self.change_field_value("middlename", user.middle_name)
-        self.change_field_value("lastname", user.last_name)
+        self.change_field_value("firstname", user.firstname)
+        self.change_field_value("middlename", user.middlename)
+        self.change_field_value("lastname", user.lastname)
         self.change_field_value("address", user.address)
         self.change_field_value("address", user.address)
         self.change_field_value("home", user.home_phone)
@@ -100,7 +100,7 @@ class UserHelper:
                 all_emails = cells[4].text
                 all_phones = cells[5].text
                 self.user_cache.append(
-                    User(id=id, first_name=first_name, last_name=last_name,
+                    User(id=id, firstname=first_name, lastname=last_name,
                          address=address, all_emails=all_emails, all_phones=all_phones))
         return list(self.user_cache)
 
@@ -124,7 +124,7 @@ class UserHelper:
         s_email = wd.find_element_by_name("email2").get_attribute("value")
         t_email = wd.find_element_by_name("email3").get_attribute("value")
 
-        return User(id=id, first_name=first_name, middle_name=middle_name, last_name=last_name, address=address,
+        return User(id=id, firstname=first_name, middlename=middle_name, lastname=last_name, address=address,
                     home_phone=home_phone, work_phone=work_phone, mobile_phone=mobile_phone,
                     secondary_phone=secondary_phone,
                     f_email=f_email, s_email=s_email, t_email=t_email)
@@ -142,5 +142,5 @@ class UserHelper:
         all_emails = "\n".join(list_content[7:])
         phones_list = list_content[3:6]
         all_phones = "\n".join(map(lambda x: re.search('\w:\s(.*)', x).group(1), phones_list))
-        return User(id=id, first_name=first_name, last_name=last_name, full_name=list_content[0], address=address,
+        return User(id=id, firstname=first_name, lastname=last_name, fullname=list_content[0], address=address,
                     all_phones=all_phones, all_emails=all_emails)
