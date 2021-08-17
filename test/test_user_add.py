@@ -15,7 +15,7 @@ testdata = [User(first_name="", middle_name="", last_name="")] + [
 
 
 @pytest.mark.parametrize("user", testdata, ids=[repr(x) for x in testdata])
-def test_add_user_wo_group(app, user):
+def test_add_user_wo_group_annot(app, user):
     old_users = app.user.get_user_list_from_home_page()
     app.user.add_new_wo_group(user)
     new_users = app.user.get_user_list_from_home_page()
