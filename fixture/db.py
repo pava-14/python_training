@@ -29,14 +29,26 @@ class DbFixture:
             cursor.close()
         return list
 
+    # def get_contacts_count(self):
+    #     cursor = self.connection.cursor()
+    #     try:
+    #         cursor.execute("select count(*) from addressbook where deprecated is null")
+    #         for row in cursor:
+    #             (count) = row
+    #     finally:
+    #         cursor.close()
+    #     print(count)
+
     def get_contact_list(self):
+        # self.get_contacts_count()
         list = []
         cursor = self.connection.cursor()
         try:
-            cursor.execute("select id, firstname, lastname from addressbook where deprecated='0000-00-00 00:00:00'")
+            # cursor.execute("select id, firstname, lastname from addressbook where deprecated='0000-00-00 00:00:00'")
+            cursor.execute("select id, firstname, middlename, lastname from addressbook where deprecated is null")
             for row in cursor:
-                (id, firstname, lastname) = row
-                list.append(User(id=str(id), firstname=firstname, lastname=lastname))
+                (id, firstname, middlename, lastname) = row
+                list.append(User(id=str(id), firstname=firstname, middlename=middlename, lastname=lastname))
         finally:
             cursor.close()
         return list

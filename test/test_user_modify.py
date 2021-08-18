@@ -1,8 +1,24 @@
 __author__ = 'apavlenko'
 
-from random import randrange
+import random
 
 from model.user import User
+
+
+def test_modify_user_db(app, db, check_ui):
+    if app.user.count() == 0:
+        app.user.add_new_wo_group(User(firstname=app.firstname, middlename=app.middlename, lastname=app.lastname))
+    old_users = db.get_contact_list()
+    user = random.choice(old_users)
+    user = User(id=user.id, firstname="Modifyed firstname", middlename="Modifyed middlename",
+                lastname="Modifyed lastname")
+    app.user.modify_user_by_id(user.id, user)
+    new_users = db.get_contact_list()
+    old_users[old_users.index(user)] = user
+    assert sorted(old_users, key=User.id_or_max) == sorted(new_users, key=User.id_or_max)
+    if check_ui:
+        assert sorted(new_users, key=User.id_or_max) == sorted(app.user.get_user_list_from_home_page(),
+                                                               key=User.id_or_max)
 
 
 def test_modify_user_by_index(app):

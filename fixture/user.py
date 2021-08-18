@@ -52,11 +52,43 @@ class UserHelper:
         self.delete_user_by_index(0)
         self.user_cache = None
 
+    def delete_user_by_id(self, user_id):
+        wd = self.app.wd
+        self.select_user_by_id(user_id)
+        self.delete_selected_user()
+        wd.switch_to_alert().accept()
+        self.user_cache = None
+
+    def delete_selected_user(self):
+        wd = self.app.wd
+        wd.find_element_by_css_selector("input[value=Delete]").click()
+
+    def select_user_by_id(self, user_id):
+        wd = self.app.wd
+        wd.find_element_by_css_selector(f"input[id='{user_id}']").click()
+
     def delete_user_by_index(self, index):
         wd = self.app.wd
         wd.find_elements_by_name("selected[]")[index].click()
-        wd.find_element_by_css_selector("input[value=Delete]").click()
+        self.delete_selected_user()
         wd.switch_to_alert().accept()
+        self.user_cache = None
+
+    def edit_user_by_id(self, id):
+        wd = self.app.wd
+        self.app.open_home_page()
+        wd.find_element_by_css_selector(f"[href='edit.php?id={id}'] [title=Edit]").click()
+
+    def modify_user_by_id(self, user_id, new_user_data):
+        wd = self.app.wd
+        self.app.open_home_page()
+        # open modification form
+        self.edit_user_by_id(user_id)
+
+        self.fill_user_form(new_user_data)
+        # submit modification
+        wd.find_element_by_name("update").click()
+        self.app.return_to_home_page()
         self.user_cache = None
 
     def modify_user_by_index(self, index, new_user_data):
@@ -81,7 +113,7 @@ class UserHelper:
         wd = self.app.wd
         selector_text = "input[title='Select ({0} {1})']".format(first_name, last_name)
         wd.find_element_by_css_selector(selector_text).click()
-        wd.find_element_by_css_selector("input[value=Delete]").click()
+        self.delete_selected_user()
         wd.switch_to_alert().accept()
         self.user_cache = None
 
