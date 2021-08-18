@@ -64,6 +64,18 @@ class GroupHelper:
         wd.find_element_by_css_selector(f"input[value='{id}']").click()
         # wd.find_element_by_css_selector("input[value='%s']" % id).click()
 
+    def modify_group_by_id(self, id, new_group_data):
+        wd = self.app.wd
+        self.open_groups_page()
+        self.select_group_by_id(id)
+        # open modification form
+        wd.find_element_by_name("edit").click()
+        self.fill_group_form(new_group_data)
+        # submit modification
+        wd.find_element_by_name("update").click()
+        self.return_to_groups_page()
+        self.group_cache = None
+
     def select_group_by_index(self, index):
         wd = self.app.wd
         wd.find_elements_by_name("selected[]")[index].click()
@@ -84,7 +96,6 @@ class GroupHelper:
     def modify_by_name(self, group_name):
         wd = self.app.wd
         self.open_groups_page()
-        # selector_text = "input[title='Select ({0})']".format(group_name)
         selector_text = f"input[title='Select ({group_name})']"
 
         wd.find_element_by_css_selector(selector_text).click()
