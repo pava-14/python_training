@@ -12,6 +12,10 @@ class GroupHelper:
         if not (wd.current_url.endswith("/group.php") and len(wd.find_elements_by_name("new")) > 0):
             wd.find_element_by_link_text("groups").click()
 
+    def open_group_property(self, group_id):
+        wd = self.app.wd
+        wd.get(f"http://localhost/addressbook/index.php?group={group_id}")
+
     def return_to_groups_page(self):
         wd = self.app.wd
         # wd.find_element(By.LINK_TEXT, "group page").click()

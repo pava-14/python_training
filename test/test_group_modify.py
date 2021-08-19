@@ -15,7 +15,7 @@ def test_modify_group_name_db(app, db, check_ui):
     new_groups = db.get_group_list()
     old_groups[old_groups.index(group)] = new_group_data
     # update database
-    app.user.count()
+    app.contact.count()
     assert sorted(old_groups, key=Group.id_or_max) == sorted(new_groups, key=Group.id_or_max)
     if check_ui:
         assert sorted(new_groups, key=Group.id_or_max) == sorted(app.group.get_group_list(), key=Group.id_or_max)

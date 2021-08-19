@@ -3,7 +3,7 @@ __author__ = 'apavlenko'
 import mysql.connector
 
 from model.group import Group
-from model.user import User
+from model.contact import Contact
 
 
 class DbFixture:
@@ -38,20 +38,36 @@ class DbFixture:
             cursor.execute("select id, firstname, middlename, lastname from addressbook where deprecated is null")
             for row in cursor:
                 (id, firstname, middlename, lastname) = row
-                list.append(User(id=str(id), firstname=firstname, middlename=middlename, lastname=lastname))
+                list.append(Contact(id=str(id), firstname=firstname, middlename=middlename, lastname=lastname))
+        finally:
+            cursor.close()
+        return list
+
+    def get_id_contacts_by_group_id(self, group_id):
+        list = []
+        cursor = self.connection.cursor()
+        try:
+            cursor.execute(
+                f"SELECT id FROM address_in_groups WHERE (group_id={group_id}) AND (id IN (SELECT id FROM addressbook WHERE deprecated IS NULL))")
+            for row in cursor:
+                (user_id) = row
+                list.append(str(user_id[0]))
+        finally:
+            cursor.close()
+        return list
+
+    def get_id_not_empty_groups(self):
+        list = []
+        cursor = self.connection.cursor()
+        try:
+            cursor.execute(
+                "SELECT group_id FROM address_in_groups GROUP BY group_id")
+            for row in cursor:
+                (group_id) = row
+                list.append(str(group_id[0]))
         finally:
             cursor.close()
         return list
 
     def destroy(self):
         self.connection.close()
-
-    # def get_contacts_count(self):
-    #     cursor = self.connection.cursor()
-    #     try:
-    #         cursor.execute("select count(*) from addressbook where deprecated is null")
-    #         for row in cursor:
-    #             (count) = row
-    #     finally:
-    #         cursor.close()
-    #     print(count)

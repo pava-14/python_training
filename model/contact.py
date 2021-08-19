@@ -2,7 +2,7 @@
 from sys import maxsize
 
 
-class User:
+class Contact:
 
     def __init__(self, id=None,
                  firstname=None, middlename=None, lastname=None, fullname = None, address=None,
