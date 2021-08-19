@@ -10,10 +10,14 @@ def test_modify_user_db(app, db, check_ui):
         app.user.add_new_wo_group(User(firstname=app.firstname, middlename=app.middlename, lastname=app.lastname))
     old_users = db.get_contact_list()
     user = random.choice(old_users)
-    user = User(id=user.id, firstname="Modifyed firstname", middlename="Modifyed middlename",
+    new_user_data = User(id=user.id, firstname="Modifyed firstname", middlename="Modifyed middlename",
                 lastname="Modifyed lastname")
-    app.user.modify_user_by_id(user.id, user)
+    app.user.modify_user_by_id(user.id, new_user_data)
     new_users = db.get_contact_list()
+    #
+    # temp_index = old_users.index(user)
+    # temp_user = old_users[old_users.index(user)]
+    #
     old_users[old_users.index(user)] = user
     assert sorted(old_users, key=User.id_or_max) == sorted(new_users, key=User.id_or_max)
     if check_ui:
