@@ -11,7 +11,7 @@ def test_delete_some_user_db(app, db, check_ui):
     old_users = db.get_contact_list()
     user = random.choice(old_users)
     app.user.delete_user_by_id(user.id)
-    # update database
+    # TODO: update database
     app.user.count()
     new_users = db.get_contact_list()
     old_users.remove(user)
