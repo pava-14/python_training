@@ -2,6 +2,22 @@ __author__ = 'apavlenko'
 
 import re
 
+from fixture.orm import ORMFixture
+from model.user import User
+
+
+def test_home_page_data_equal_database_data_orm(app):
+    db = ORMFixture(host="localhost", name="addressbook", user="root", password="")
+    home_page_contacts_list = app.user.get_user_list_from_home_page()
+    database_contacts_list = db.get_contact_list()
+    assert sorted(home_page_contacts_list, key=User.id_or_max) == sorted(database_contacts_list, key=User.id_or_max)
+
+
+def test_home_page_data_equal_database_data_db(app, db):
+    home_page_contacts_list = app.user.get_user_list_from_home_page()
+    database_contacts_list = db.get_contact_list()
+    assert sorted(home_page_contacts_list, key=User.id_or_max) == sorted(database_contacts_list, key=User.id_or_max)
+
 
 def test_user_home_page_data_equal_user_edit_page(app):
     contact_from_home_page = app.user.get_user_list_from_home_page()[0]
