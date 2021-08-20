@@ -6,7 +6,7 @@ from model.contact import Contact
 
 
 def test_delete_some_contact_db(app, db, check_ui):
-    if app.contact.count() == 0:
+    if len(db.get_contact_list()) == 0:
         app.contact.add_new_wo_group(Contact(firstname=app.firstname, middlename=app.middlename, lastname=app.lastname))
     old_contacts = db.get_contact_list()
     contact = random.choice(old_contacts)
@@ -19,7 +19,7 @@ def test_delete_some_contact_db(app, db, check_ui):
     assert old_contacts == new_contacts
     if check_ui:
         assert sorted(new_contacts, key=Contact.id_or_max) == sorted(app.contact.get_contact_list_from_home_page(),
-                                                                  key=Contact.id_or_max)
+                                                                     key=Contact.id_or_max)
 
 
 def test_delete_some_contact(app):

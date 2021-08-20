@@ -6,7 +6,6 @@ from fixture.contact import ContactHelper
 
 
 class Application:
-    # def __init__(self, browser, base_url, username, password):
     def __init__(self, browser, base_url):
         if browser == "chrome":
             self.wd = webdriver.Chrome()
@@ -26,7 +25,8 @@ class Application:
         try:
             self.wd.current_url()
             return True
-        except:
+        except Exception:
+            print(Exception)
             return False
 
     def open_home_page(self):

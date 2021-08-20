@@ -18,7 +18,6 @@ class GroupHelper:
 
     def return_to_groups_page(self):
         wd = self.app.wd
-        # wd.find_element(By.LINK_TEXT, "group page").click()
         wd.find_element_by_link_text("group page").click()
 
     def fill_group_form(self, group):
@@ -55,23 +54,22 @@ class GroupHelper:
         self.return_to_groups_page()
         self.group_cache = None
 
-    def delete_group_by_id(self, id):
+    def delete_group_by_id(self, group_id):
         wd = self.app.wd
         self.open_groups_page()
-        self.select_group_by_id(id)
+        self.select_group_by_id(group_id)
         wd.find_element_by_name("delete").click()
         self.return_to_groups_page()
         self.group_cache = None
 
-    def select_group_by_id(self, id):
+    def select_group_by_id(self, group_id):
         wd = self.app.wd
-        wd.find_element_by_css_selector(f"input[value='{id}']").click()
-        # wd.find_element_by_css_selector("input[value='%s']" % id).click()
+        wd.find_element_by_css_selector(f"input[value='{group_id}']").click()
 
-    def modify_group_by_id(self, id, new_group_data):
+    def modify_group_by_id(self, group_id, new_group_data):
         wd = self.app.wd
         self.open_groups_page()
-        self.select_group_by_id(id)
+        self.select_group_by_id(group_id)
         # open modification form
         wd.find_element_by_name("edit").click()
         self.fill_group_form(new_group_data)
@@ -139,6 +137,6 @@ class GroupHelper:
             self.group_cache = []
             for element in wd.find_elements_by_css_selector("span.group"):
                 text = element.text
-                id = element.find_element_by_name("selected[]").get_attribute("value")
-                self.group_cache.append(Group(name=text, id=id))
+                group_id = element.find_element_by_name("selected[]").get_attribute("value")
+                self.group_cache.append(Group(name=text, id=group_id))
         return list(self.group_cache)

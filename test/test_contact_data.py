@@ -12,7 +12,8 @@ def test_home_page_data_equal_database_data_orm(app):
     db = ORMFixture(host="localhost", name="addressbook", user="root", password="")
     home_page_contacts_list = app.contact.get_contact_list_from_home_page()
     database_contacts_list = db.get_contact_list()
-    assert sorted(home_page_contacts_list, key=Contact.id_or_max) == sorted(database_contacts_list, key=Contact.id_or_max)
+    assert sorted(home_page_contacts_list, key=Contact.id_or_max) == sorted(database_contacts_list,
+                                                                            key=Contact.id_or_max)
 
 
 def test_home_page_data_equal_database_data_db(app, db):
@@ -20,7 +21,8 @@ def test_home_page_data_equal_database_data_db(app, db):
         app.contact.add_new_wo_group(Contact(firstname=app.firstname, middlename=app.middlename, lastname=app.lastname))
     home_page_contacts_list = app.contact.get_contact_list_from_home_page()
     database_contacts_list = db.get_contact_list()
-    assert sorted(home_page_contacts_list, key=Contact.id_or_max) == sorted(database_contacts_list, key=Contact.id_or_max)
+    assert sorted(home_page_contacts_list, key=Contact.id_or_max) == sorted(database_contacts_list,
+                                                                            key=Contact.id_or_max)
 
 
 def test_contact_home_page_data_equal_contact_edit_page(app):
@@ -50,8 +52,9 @@ def clear(s):
 def merge_phones_like_on_home_page(contact):
     return "\n".join(filter(lambda x: x != "",
                             map(lambda x: clear(x),
-                                filter(lambda x: x is not None, [contact.home_phone, contact.mobile_phone, contact.work_phone,
-                                                                 contact.secondary_phone]))))
+                                filter(lambda x: x is not None,
+                                       [contact.home_phone, contact.mobile_phone, contact.work_phone,
+                                        contact.secondary_phone]))))
 
 
 def merge_emails_like_on_home_page(contact):
