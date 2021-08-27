@@ -6,9 +6,10 @@ from model.contact import Contact
 
 
 def test_delete_some_contact_db(app, db, check_ui):
-    if len(db.get_contact_list()) == 0:
-        app.contact.add_new_wo_group(Contact(firstname=app.firstname, middlename=app.middlename, lastname=app.lastname))
     old_contacts = db.get_contact_list()
+    if len(old_contacts) == 0:
+        app.contact.add_new_wo_group(Contact(firstname=app.firstname, middlename=app.middlename, lastname=app.lastname))
+        old_contacts = db.get_contact_list()
     contact = random.choice(old_contacts)
     app.contact.delete_contact_by_id(contact.id)
     # TODO: update database
