@@ -6,9 +6,10 @@ from model.contact import Contact
 
 
 def test_modify_contact_db(app, db, check_ui):
-    if len(db.get_contact_list) == 0:
-        app.contact.add_new_wo_group(Contact(firstname=app.firstname, middlename=app.middlename, lastname=app.lastname))
     old_contacts = db.get_contact_list()
+    if len(old_contacts) == 0:
+        app.contact.add_new_wo_group(Contact(firstname=app.firstname, middlename=app.middlename, lastname=app.lastname))
+        old_contacts = db.get_contact_list()
     contact = random.choice(old_contacts)
     new_contact_data = Contact(id=contact.id, firstname="Modifyed firstname", middlename="Modifyed middlename",
                                lastname="Modifyed lastname")
@@ -24,9 +25,10 @@ def test_modify_contact_db(app, db, check_ui):
 
 
 def test_modify_contact_by_index(app):
-    if app.contact.count() == 0:
-        app.contact.add_new_wo_group(Contact(firstname=app.firstname, middlename=app.middlename, lastname=app.lastname))
     old_contacts = app.contact.get_contact_list_from_home_page()
+    if len(old_contacts) == 0:
+        app.contact.add_new_wo_group(Contact(firstname=app.firstname, middlename=app.middlename, lastname=app.lastname))
+        old_contacts = app.contact.get_contact_list_from_home_page()
     index = random.randrange(len(old_contacts))
     contact = Contact(firstname="New Contact", middlename="New Contact", lastname="New Contact")
     contact.id = old_contacts[index].id
