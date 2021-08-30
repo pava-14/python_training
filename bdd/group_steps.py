@@ -7,12 +7,12 @@ from pytest_bdd import given, when, then
 from model.group import Group
 
 
-@given('a group list', target_fixture="group_list")
+@given('a group list', target_fixture='group_list')
 def group_list(db):
     return db.get_group_list()
 
 
-@given('a group with <name>, <header> and <footer>', target_fixture="new_group")
+@given('a group with <name>, <header> and <footer>', target_fixture='new_group')
 def new_group(name, header, footer):
     return Group(name=name, header=header, footer=footer)
 
@@ -30,16 +30,16 @@ def verify_group_added(db, group_list, new_group):
     assert sorted(old_groups, key=Group.id_or_max) == sorted(new_groups, key=Group.id_or_max)
 
 
-@given('a non-empty group list')
+@given('a non-empty group list', target_fixture='non_empty_group_list')
 def non_empty_group_list(db, app):
     if len(db.get_group_list()) == 0:
         app.group.create(Group(name='some name'))
     return db.get_group_list()
 
 
-@given('a random group from the list')
-def random_group(non_empty_group):
-    return random.choice(non_empty_group)
+@given('a random group from the list', target_fixture='random_group')
+def random_group(non_empty_group_list):
+    return random.choice(non_empty_group_list)
 
 
 @when('I delete the group from the list')
