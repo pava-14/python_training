@@ -5,14 +5,14 @@ import random
 from pytest_bdd import given, when, then
 
 from model.group import Group
-from fixture import db
 
-@given('a group list')
+
+@given('a group list', target_fixture="group_list")
 def group_list(db):
     return db.get_group_list()
 
 
-@given('a group with <name>, <header> and <footer>')
+@given('a group with <name>, <header> and <footer>', target_fixture="new_group")
 def new_group(name, header, footer):
     return Group(name=name, header=header, footer=footer)
 
