@@ -1,7 +1,6 @@
 __author__ = 'apavlenko'
 
 from model.group import Group
-from util.datagenerator import random_string
 
 testdata = [
     Group(name="group1", header="header1", footer="footer1"),

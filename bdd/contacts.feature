@@ -18,12 +18,13 @@ Feature: Contacts
     Then the new contact list is equal to the old list without the deleted contact
 
   Scenario Outline: Modify contact
-    Given a contact list
-    Given a group with <name>, <header> and <footer>
-    When I add the group to the list
-    Then the new group list is equal to the old list with the added group
+    Given a non-empty contact list
+    Given a random contact from the list
+    Given a new contact data with <firstname> and <lastname>
+    When I modify a contact from a list with a new contact data
+    Then the new contact list is equal to the old list with modified contact
 
     Examples:
-      | name  | header  | footer  |
-      | name1 | header1 | footer1 |
-      | name2 | header2 | footer2 |
+      | firstname   | lastname   |
+      | firstname14 | lastname14 |
+      | firstname15 | lastname15 |

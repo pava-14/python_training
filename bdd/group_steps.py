@@ -48,7 +48,7 @@ def delete_group(app, random_group):
 
 
 @then('the new group list is equal to the old list without the deleted group')
-def verify_froup_deleted(db, check_ui, app, non_empty_group_list, random_group):
+def verify_group_deleted(db, check_ui, app, non_empty_group_list, random_group):
     old_groups = non_empty_group_list
     new_groups = db.get_group_list()
     old_groups.remove(random_group)

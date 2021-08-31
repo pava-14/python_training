@@ -4,9 +4,8 @@ from datetime import datetime
 
 from pony.orm import *
 
-from model.group import Group
 from model.contact import Contact
-from pymysql.converters import decoders
+from model.group import Group
 
 
 class ORMFixture:

@@ -1,13 +1,14 @@
 __author__ = 'apavlenko'
 
+import getopt
+import os.path
+import sys
+
 # import json
 import jsonpickle
-import getopt
-import sys
 
 from model.group import Group
 from util.datagenerator import random_string
-import os.path
 
 try:
     opts, args = getopt.getopt(sys.argv[1:], "n:f:", ["number of group", "file"])
