@@ -1,0 +1,10 @@
+Faker
+jsonpickle
+mysql-connector-python-rf
+pony
+py
+PyMySQL
+pytest
+pytest-bdd
+python-dateutil
+selenium
