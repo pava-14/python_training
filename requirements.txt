@@ -10,3 +10,4 @@ python-dateutil
 selenium
 allure-pytest
 allure-python-commons
+robotframework
