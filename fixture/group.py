@@ -1,6 +1,7 @@
 __author__ = 'apavlenko'
 
 from model.group import Group
+import allure
 
 
 class GroupHelper:
@@ -31,6 +32,7 @@ class GroupHelper:
             wd.find_element_by_name(field_name).clear()
             wd.find_element_by_name(field_name).send_keys(text)
 
+    @allure.step('Create group')
     def create(self, group):
         wd = self.app.wd
         self.open_groups_page()
@@ -130,6 +132,7 @@ class GroupHelper:
 
     group_cache = None
 
+    @allure.step('Get group list')
     def get_group_list(self):
         if self.group_cache is None:
             wd = self.app.wd
