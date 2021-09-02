@@ -143,3 +143,7 @@ class GroupHelper:
                 group_id = element.find_element_by_name("selected[]").get_attribute("value")
                 self.group_cache.append(Group(name=text, id=group_id))
         return list(self.group_cache)
+
+    @allure.step('Sorting group list')
+    def gsort(self, groups):
+        return sorted(groups, key=Group.id_or_max)

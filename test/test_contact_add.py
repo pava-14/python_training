@@ -1,5 +1,6 @@
 __author__ = 'apavlenko'
 
+import allure
 import pytest
 
 from model.contact import Contact
@@ -8,7 +9,11 @@ from util.datagenerator import random_lastname, random_stret_address
 from util.datagenerator import random_email, random_phonenumber
 
 
+@allure.feature('Contact management (Back)')
+@allure.story('Add contact')
+@allure.title('Add random contact from json file')
 def test_add_contact(app, json_contacts, db, check_ui):
+    assert_msg = 'Списки отличаются'
     old_contacts = db.get_contact_list()
     contacts = json_contacts
 
@@ -17,32 +22,29 @@ def test_add_contact(app, json_contacts, db, check_ui):
     new_contacts = db.get_contact_list()
     old_contacts.append(contacts)
 
-    old_sorted = sorted(old_contacts, key=Contact.id_or_max)
-    new_sorted = sorted(new_contacts, key=Contact.id_or_max)
-
-    assert old_sorted == new_sorted
+    assert app.contact.contacts_equal(old_contacts, new_contacts), assert_msg
 
     if check_ui:
-        contacts_homepage = app.contact.get_contact_list_from_home_page()
-        old_sorted = sorted(contacts_homepage, key=Contact.id_or_max)
-        assert old_sorted == new_sorted
+        ui_contacts = app.contact.csort(
+            app.contact.get_contact_list_from_home_page())
+        assert app.contact.contacts_equal(ui_contacts, new_contacts), assert_msg
 
 
+@allure.feature('Contact management (Front)')
+@allure.story('Add contact')
+@allure.title('Add random contact from json file')
 def test_add_contact_wo_group(app, json_contacts):
-    old_contacts = app.contact.get_contact_list_from_home_page()
-    contacts = json_contacts
+    assert_msg = 'Списки отличаются'
 
+    old_contacts = app.contact.get_contact_list_from_home_page()
+
+    contacts = json_contacts
     app.contact.add_new_wo_group(contacts)
     new_contacts = app.contact.get_contact_list_from_home_page()
 
-    assert len(old_contacts) + 1 == len(new_contacts)
-
     old_contacts.append(contacts)
 
-    old_sorted = sorted(old_contacts, key=Contact.id_or_max)
-    new_sorted = sorted(new_contacts, key=Contact.id_or_max)
-
-    assert old_sorted == new_sorted
+    assert app.contact.contacts_equal(old_contacts, new_contacts), assert_msg
 
 
 testdata = [Contact(firstname="", middlename="", lastname="")] + [
@@ -56,17 +58,17 @@ testdata = [Contact(firstname="", middlename="", lastname="")] + [
 ]
 
 
+@allure.feature('Contact management (Front)')
+@allure.story('Add contact')
+@allure.title('Add random contact (parametrize)')
 @pytest.mark.parametrize("contact", testdata, ids=[repr(x) for x in testdata])
 def test_add_contact_wo_group_annot(app, contact):
+    assert_msg = 'Списки отличаются'
     old_contacts = app.contact.get_contact_list_from_home_page()
+
     app.contact.add_new_wo_group(contact)
     new_contacts = app.contact.get_contact_list_from_home_page()
 
-    assert len(old_contacts) + 1 == len(new_contacts)
-
     old_contacts.append(contact)
 
-    old_sorted = sorted(old_contacts, key=Contact.id_or_max)
-    new_sorted = sorted(new_contacts, key=Contact.id_or_max)
-
-    assert old_sorted == new_sorted
+    assert app.contact.contacts_equal(old_contacts, new_contacts), assert_msg
