@@ -228,5 +228,5 @@ class ContactHelper:
         return sorted(contacts, key=Contact.id_or_max)
 
     @allure.step('Check for equals lists')
-    def contacts_equal(self, fcontacts, scontacts):
+    def lists_equal(self, fcontacts, scontacts):
         return self.csort(fcontacts) == self.csort(scontacts)

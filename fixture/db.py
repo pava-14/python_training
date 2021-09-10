@@ -13,30 +13,34 @@ class DbFixture:
         self.name = name
         self.user = user
         self.password = password
-        self.connection = mysql.connector.connect(host=host, database=name, user=user, password=password,
+        self.connection = mysql.connector.connect(host=host, database=name,
+                                                  user=user, password=password,
                                                   autocommit=True)
 
     @allure.step('Get group list from database')
     def get_group_list(self):
-        list = []
+        grouplist = []
         cursor = self.connection.cursor()
+        sqlstring = ("SELECT group_id, group_name, group_header, group_footer "
+                     "FROM group_list")
         try:
-            cursor.execute(
-                "SELECT group_id, group_name, group_header, group_footer FROM group_list")
+            cursor.execute(sqlstring)
             for row in cursor:
                 (id, name, header, footer) = row
-                list.append(Group(id=str(id), name=name, header=header,
-                                  footer=footer))
+                grouplist.append(Group(id=str(id), name=name, header=header,
+                                       footer=footer))
         finally:
             cursor.close()
-        return list
+        return grouplist
 
     @allure.step('Get contact list from database')
     def get_contact_list(self):
         list = []
         cursor = self.connection.cursor()
+        sqlstring = ("SELECT id, firstname, middlename, lastname "
+                     "FROM addressbook WHERE deprecated IS NULL")
         try:
-            cursor.execute("SELECT id, firstname, middlename, lastname FROM addressbook WHERE deprecated IS NULL")
+            cursor.execute(sqlstring)
             for row in cursor:
                 (id, firstname, middlename, lastname) = row
                 list.append(Contact(id=str(id), firstname=firstname,
@@ -49,9 +53,12 @@ class DbFixture:
     def get_id_contacts_by_group_id(self, group_id):
         list = []
         cursor = self.connection.cursor()
+        sqlstring = ("SELECT id FROM address_in_groups "
+                     f"WHERE (group_id={group_id}) AND "
+                     "(id IN (SELECT id FROM addressbook "
+                     "WHERE deprecated IS NULL))")
         try:
-            cursor.execute(
-                f"SELECT id FROM address_in_groups WHERE (group_id={group_id}) AND (id IN (SELECT id FROM addressbook WHERE deprecated IS NULL))")
+            cursor.execute(sqlstring)
             for row in cursor:
                 (user_id) = row
                 list.append(str(user_id[0]))

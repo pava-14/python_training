@@ -22,12 +22,12 @@ def test_add_contact(app, json_contacts, db, check_ui):
     new_contacts = db.get_contact_list()
     old_contacts.append(contacts)
 
-    assert app.contact.contacts_equal(old_contacts, new_contacts), assert_msg
+    assert app.contact.lists_equal(old_contacts, new_contacts), assert_msg
 
     if check_ui:
         ui_contacts = app.contact.csort(
             app.contact.get_contact_list_from_home_page())
-        assert app.contact.contacts_equal(ui_contacts, new_contacts), assert_msg
+        assert app.contact.lists_equal(ui_contacts, new_contacts), assert_msg
 
 
 @allure.feature('Contact management (Front)')
@@ -44,7 +44,7 @@ def test_add_contact_wo_group(app, json_contacts):
 
     old_contacts.append(contacts)
 
-    assert app.contact.contacts_equal(old_contacts, new_contacts), assert_msg
+    assert app.contact.lists_equal(old_contacts, new_contacts), assert_msg
 
 
 testdata = [Contact(firstname="", middlename="", lastname="")] + [
@@ -71,4 +71,4 @@ def test_add_contact_wo_group_annot(app, contact):
 
     old_contacts.append(contact)
 
-    assert app.contact.contacts_equal(old_contacts, new_contacts), assert_msg
+    assert app.contact.lists_equal(old_contacts, new_contacts), assert_msg
